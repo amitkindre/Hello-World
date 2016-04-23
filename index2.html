@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page Title</title>
+		<style>
+		table, td, th {
+			border: 2px solid black;
+		}
+
+		table {
+			//border-collapse: collapse;
+		}
+
+		th {
+			height: 50px;
+		}
+			.button {
+				background-color: #4CAF50;
+				border: 10px;
+				color: white;
+				padding: 15px 15px;
+				text-align: center;
+				text-decoration: none;
+				font-size: 12px;
+				margin: 0px 0px;
+				cursor: pointer;
+				position:relative;
+				height: 50px;
+				width: 100px;
+			}
+			
+			.defaultW{
+				width:50px;
+				height:50px;
+				display:none;
+				position:relative;
+				background-color:#4682B4;	
+			}
+			.smallW{
+				width:50px;
+				height:50px;
+				display:none;
+				position:relative;
+				background-color:#7CFC00;	
+			}
+			.mediumW {
+				width:100px;
+				height:50px;
+				display:none;
+				position:relative;
+				background-color:#4169E1;
+			}
+			.largeW {
+				width:100px;
+				height:100px;
+				display:none;
+				position:relative;
+				background-color:#FF4500 ;	
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script>
+			var i=1;
+			var windowSize="1";
+			var $tempHolder;
+			
+			$(document).ready(function(){
+			 $("td").each(function(){
+				$(this).fadeIn();
+			 });
+				
+			
+				$("button").on({
+					mouseenter: function(){
+						//$(this).animate({left: '250px'});
+						$(this).css('background-color','#99ff33');
+					},
+					
+					mouseleave: function(){
+						$(this).css('background-color','#4CAF50');
+					},
+					
+					click: function(){
+							windowSize=$(this).val();
+					}
+				});
+				
+				$("#tbl tr td").on({
+					click: function(){
+					var $validWindow = $(this).attr('class');
+					if($validWindow != 'defaultW')
+						return;
+					var windowNum = parseInt($(this).attr('id'),10);
+					var $pid = $(this).parent('tr');
+					var parWindowcnt = $pid.attr('value');
+					var nxtWindiwCnt = $pid.next('tr').attr('value');
+					
+						switch(windowSize)
+						{
+							case "0":
+								$(this).attr('class','smallW');
+								$pid.attr({'value': '1'});
+								break;
+							case "1":
+								if(windowNum%2)
+									return;
+								if(parWindowcnt > '0')
+									return;
+								$(this).next().remove();
+								//alert(coln);
+								$(this).attr({'colspan':'2','class':'mediumW'});
+								$(this).fadeIn('5000');
+								$pid.attr({'value': '2'});
+								break;
+							case "2":
+								if(windowNum%2)
+									return;
+								
+								var rowNum = $pid.attr('id');
+								if(rowNum > 3)
+									return;	
+								if(nxtWindiwCnt > '0')
+									return;
+									
+								$(this).next().remove();
+								$(this).parent('tr').next().remove();
+								
+								$(this).attr('colspan','2');
+								$(this).parent('tr').attr('rowspan','2');		//apply row span property to row
+								$(this).attr('class','largeW').fadeIn('5000');
+								$pid.attr({'value': '3'});
+								break;
+						}
+						
+					},
+					mouseenter: function(){
+						//$(this).css("background-color",'#99ccff');
+						$(this).animate({'opacity':'0.6'});
+						//$tempHolder = $(this).attr('class');
+					},
+					
+					mouseleave: function(){
+						$(this).animate({'opacity':'1', 'left':'+=20'},"fast");
+						$tempHolder = $(this).attr('class');
+						
+						/*switch($tempHolder)
+						{
+							case 'smallW':
+								$(this).css("background-color",'#7CFC00');
+								break;
+							case 'mediumW':
+								$(this).css("background-color",'#4169E1');
+								break;
+							case 'largeW':
+								$(this).css("background-color",'#FF4500');
+								break;
+							default:
+								$(this).css("background-color",'#4682B4');
+								break;
+						}*/
+					}
+				});
+			});
+			
+			
+		</script>
+	</head>
+	<body>
+		<table id=tbl>
+			<tr id=1 value=0>
+			<td id="0" class=defaultW></td>
+			<td id="1" class=defaultW></td>
+			</tr>
+			<tr id=2 value=0>
+			<td id="2" class=defaultW></td>
+			<td id="3" class=defaultW></td>
+			</tr >
+			<tr id=3 value=0>
+			<td id="4" class=defaultW></td>
+			<td id="5" class=defaultW></td>
+			</tr>
+			<tr id=4 value=0>
+			<td id="6" class=defaultW></td>
+			<td id="7" class=defaultW></td>
+			</tr>
+		</table>
+		<br>
+		<br>
+		
+		<table id=btnTbl>
+		<td><button id="btnSmall" class=button value="0">Small window</button></td>
+		<td><button id="btnMedium" class=button value="1">Medium window</button></td>
+		<td><button id="btnLarge" class=button value="2">Large window</button></br></td>
+		</table>
+	</body>
+	
+</html>
