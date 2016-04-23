@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page Title</title>
+		<style>
+			.button {
+				background-color: #4CAF50;
+				border: 10px;
+				color: white;
+				padding: 15px 15px;
+				text-align: center;
+				text-decoration: none;
+				font-size: 12px;
+				margin: 0px 0px;
+				cursor: pointer;
+				position:relative;
+				height: 50px;
+				width: 100px;
+			}
+			
+			.defaultW{
+				width:50px;
+				height:50px;
+				display:none;
+				position:relative;
+				background-color:#4682B4;	
+			}
+			.smallW{
+				width:50px;
+				height:50px;
+				display:none;
+				position:relative;
+				background-color:#7CFC00;	
+			}
+			.mediumW {
+				width:100px;
+				height:50px;
+				display:none;
+				position:relative;
+				background-color:#4169E1;
+			}
+			.largeW {
+				width:100px;
+				height:100px;
+				display:none;
+				position:relative;
+				background-color:#FF4500 ;	
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script>
+			var i=1;
+			var windowSize="1";
+			var $tempHolder;
+			$(document).ready(function(){
+			 $("td").each(function(){
+				$(this).fadeIn();
+			 });
+				
+			
+				$("button").on({
+					mouseenter: function(){
+						//$(this).animate({left: '250px'});
+						$(this).css('background-color','#99ff33');
+					},
+					
+					mouseleave: function(){
+						$(this).css('background-color','#4CAF50');
+					},
+					
+					click: function(){
+							windowSize=$(this).val();
+					}
+				});
+				$("#tbl tr td").on({
+					click: function(){
+						switch(windowSize)
+						{
+							case "0":
+								$(this).attr('class','smallW');
+								break;
+							case "1":
+								$(this).next().remove();
+								//alert(coln);
+								$(this).attr({'colspan':'2','class':'mediumW'});
+								$(this).fadeIn('5000');
+								break;
+							case "2":
+								//var $tr = $(this).parent().parent();
+								$(this).next().remove();
+								$(this).parent('tr').next().remove();
+								
+								$(this).attr('colspan','2');
+								$(this).parent('tr').attr('rowspan','2');
+								$(this).fadeOut('100').attr('class','largeW').fadeIn('5000');
+								break;
+						}
+						
+					},
+					mouseenter: function(){
+						$(this).animate({ height: '+=5px'});
+						$(this).css("background-color",'#99ccff');
+						//$tempHolder = $(this).attr('class');
+					},
+					
+					mouseleave: function(){
+						$tempHolder = $(this).attr('class');
+						switch($tempHolder)
+						{
+							case 'smallW':
+								$(this).css("background-color",'#7CFC00');
+								break;
+							case 'mediumW':
+								$(this).css("background-color",'#4169E1');
+								break;
+							case 'largeW':
+								$(this).css("background-color",'#FF4500');
+								break;
+							default:
+								$(this).css("background-color",'#4682B4');
+								break;
+						}
+					}
+				});
+			});
+			
+			
+		</script>
+	</head>
+	<body>
+		<table id=tbl>
+			<tr>
+			<td id="div0" class=defaultW></td>
+			<td id="div1" class=defaultW></td>
+			</tr>
+			<tr>
+			<td id="div2" class=defaultW></td>
+			<td id="div3" class=defaultW></td>
+			</tr>
+			<tr>
+			<td id="div4" class=defaultW></td>
+			<td id="div5" class=defaultW></td>
+			</tr>
+			<tr>
+			<td id="div6" class=defaultW></td>
+			<td id="div7" class=defaultW></td>
+			</tr>
+		</table>
+		
+		<table id=btnTbl>
+		<td><button id="btnSmall" class=button value="0">Small window</button></td>
+		<td><button id="btnMedium" class=button value="1">Medium window</button></td>
+		<td><button id="btnLarge" class=button value="2">Large window</button></br></td>
+		</table>
+	</body>
+	
+</html>
