@@ -1,9 +1,2 @@
-// Hello-World
-
-#include<stdio.h>
-#include<conio.h>
-
-void main()
-{
-  printf("Hello World");
-}
+Configure windows using jquery
+add small medium and large widows
